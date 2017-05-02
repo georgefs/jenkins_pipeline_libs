@@ -3,6 +3,7 @@ def call(body){
     body()
     Closure test_script = body.test_script
     Closure release = body.release
+    use_cert = body.use_cert
 
     stage('prepare'){
         checkout scm
