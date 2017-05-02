@@ -16,8 +16,7 @@ def call(body){
     }
 
     stage('build'){
-        // sh "docker build . -t ${body.name}"
-        sh 'echo build'
+        sh "docker build . -t ${body.name}"
     }
 
     stage('test'){
