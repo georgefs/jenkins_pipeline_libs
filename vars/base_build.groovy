@@ -1,5 +1,7 @@
 def call(body){
     body.use_cert = false
+    body.test_script = {}
+    body.release = {}
     body()
     Closure test_script = body.test_script
     Closure release = body.release
