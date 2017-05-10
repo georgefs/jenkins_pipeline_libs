@@ -1,5 +1,4 @@
 def call(body){
-    def host = "172.17.42.1"
     def user = "root"
     def password = "test"
     def container = sh(returnStdout: true, script: "docker run -d --rm -p 5432 -e POSTGRES_USER=${user} -e POSTGRES_PASSWORD=${password} postgres").trim()
