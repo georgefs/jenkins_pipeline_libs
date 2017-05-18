@@ -1,4 +1,5 @@
 def call(body){
+    
     body.use_cert = false
     body.test_script = {}
     body.release = {}
@@ -7,29 +8,31 @@ def call(body){
     Closure release = body.release
     use_cert = body.use_cert
 
-    stage('prepare'){
-        checkout scm
-        withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
-            if(use_cert){
-                sh 'mv $certfile certfile.tgz'
-                sh 'tar zxvf certfile.tgz'
+    ansiColor('xterm') {
+        stage('prepare'){
+            checkout scm
+                withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
+                    if(use_cert){
+                        sh 'mv $certfile certfile.tgz'
+                            sh 'tar zxvf certfile.tgz'
+                    }
+                }
+        }
+
+        stage('build'){
+            sh "docker build . -t ${body.name}"
+        }
+
+        stage('test'){
+            withDockerContainer(image:body.name, args: '-u root:root') {
+                test_script()
             }
         }
-    }
 
-    stage('build'){
-        sh "docker build . -t ${body.name}"
-    }
-
-    stage('test'){
-        withDockerContainer(image:body.name, args: '-u root:root') {
-            test_script()
-        }
-    }
-
-    stage('release'){
-        if(is_release()){
-            release()
+        stage('release'){
+            if(is_release()){
+                release()
+            }
         }
     }
 }
