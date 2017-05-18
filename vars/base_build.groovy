@@ -7,6 +7,8 @@ def call(body){
     Closure test_script = body.test_script
     Closure release = body.release
     use_cert = body.use_cert
+    
+    hash = sh(returnStdout=true, script='git rev-parse --short HEAD')
 
     ansiColor('xterm') {
         stage('prepare'){
@@ -20,7 +22,7 @@ def call(body){
         }
 
         stage('build'){
-            sh "docker build . -t ${body.name}"
+            sh "docker build . -t ${hash}"
         }
 
         stage('test'){
@@ -30,9 +32,11 @@ def call(body){
         }
 
         stage('release'){
+            sh "docker tag ${hash} ${body.name}"
             if(is_release()){
                 release()
             }
+            sh "docker rmi ${body.name}"
         }
     }
 }
