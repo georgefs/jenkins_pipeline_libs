@@ -37,6 +37,7 @@ def call(body){
                 release()
             }
             sh "docker rmi ${body.name}"
+            sh "docker image prune"
         }
     }
 }
