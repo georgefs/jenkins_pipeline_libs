@@ -8,7 +8,7 @@ def call(body){
     Closure release = body.release
     use_cert = body.use_cert
     
-    def hash = sh(returnStdout=true, script='git rev-parse --short HEAD').trim()
+    def hash = sh(returnStdout:true, script:'git rev-parse --short HEAD').trim()
 
     ansiColor('xterm') {
         stage('prepare'){
