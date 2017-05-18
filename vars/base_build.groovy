@@ -36,7 +36,7 @@ def call(body){
             if(is_release()){
                 release()
             }
-            sh "docker rmi ${body.name}"
+            sh "docker rmi ${hash}"
             sh "docker image prune"
         }
     }
