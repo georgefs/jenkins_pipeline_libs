@@ -1,13 +1,27 @@
+def login(){
+    aws()
+}
+
 def upload(bucket, from, to=null){
+    login()
     to = to || from
-    withAWS(credentials: "${AWS_KEY}") {
-		s3Upload(file: from, bucket: bucket, path: to)
-    }
+    sh "aws s3 cp ${from} s3://${bucket}/${to}"
 }
 
 def download(bucket, from, to=null){
+    login()
     to = to || from
-    withAWS(credentials: "${AWS_KEY}") {
-		s3Download(file: to, bucket: bucket, path: path)
-    }
+    sh "aws s3 cp s3://${bucket}/${from} ${to}"
+}
+
+def upload_folder(bucket, from, to=null){
+    login()
+    to = to || from
+    sh "aws s3 sync ${from} s3://${bucket}/${to}"
+}
+
+def download_folder(bucket, from, to=null){
+    login()
+    to = to || from
+    sh "aws s3 sync s3://${bucket}/${from} ${to}"
 }

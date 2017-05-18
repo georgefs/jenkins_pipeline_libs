@@ -8,7 +8,6 @@ def call(body){
     Closure release = body.release
     use_cert = body.use_cert
     
-    def hash = sh(returnStdout:true, script:'git rev-parse --short HEAD').trim()
 
     ansiColor('xterm') {
         stage('prepare'){
@@ -20,6 +19,7 @@ def call(body){
                     }
                 }
         }
+        def hash = sh(returnStdout:true, script:'git rev-parse --short HEAD').trim()
 
         stage('build'){
             sh "docker build . -t ${hash}"

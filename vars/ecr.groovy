@@ -7,7 +7,14 @@
         ECR_KEY: amazon ecs key
 */
 
+def ecr_login(){
+    aws()
+    def region = ECR_DOMAIN.split('\\.')[-3]
+    sh "aws ecr get-login --region=${region}"
+}
+
 def push_image(name, version='latest', origin_name=null){
+    ecr_login()
     origin_name = origin_name || name
     def real_name = "${ECR_DOMAIN}/${name}:${version}"
     sh "docker tag ${origin_name} ${real_name}"
@@ -17,6 +24,7 @@ def push_image(name, version='latest', origin_name=null){
 }
 
 def pull_image(name, version="latest", target_name=null){
+    ecr_login()
     target_name = target_name || name
     def real_name = "${ECR_DOMAIN}/${name}:${version}"
     docker.withRegistry("https://${ECR_DOMAIN}", "${ECR_KEY}") {
