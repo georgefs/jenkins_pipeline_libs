@@ -26,7 +26,7 @@ def call(body){
         }
 
         stage('test'){
-            withDockerContainer(image:body.name, args: '-u root:root') {
+            withDockerContainer(image:hash, args: '-u root:root') {
                 test_script()
             }
         }
