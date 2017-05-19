@@ -36,7 +36,11 @@ def call(body){
             if(is_release()){
                 release()
             }
+            try{
             sh "docker rmi ${hash}"
+            }catch(){
+            echo "remove ${hash} error" 
+            }
 
         }
     }
