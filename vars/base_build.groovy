@@ -37,9 +37,9 @@ def call(body){
                 release()
             }
             try{
-            sh "docker rmi ${hash}"
-            }catch(){
-            echo "remove ${hash} error" 
+                sh "docker rmi ${hash}"
+            } catch(e) {
+                echo "remove ${hash} error" 
             }
 
         }
