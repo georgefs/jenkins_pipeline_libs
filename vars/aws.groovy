@@ -1,5 +1,5 @@
 def install(){
-    sh "type aws || sudo apt-get update && sudo apt-get install awscli"""
+    sh "type aws || sudo apt-get update && sudo apt-get install awscli -y"""
 }
 
 
