@@ -1,9 +1,5 @@
 def install(){
-    sh """ 
-	if ! [ -x "$(command -v aws)" ]; then
-		sudo apt-get update && sudo apt-get install awscli
-	fi
-    """
+    sh "type aws || sudo apt-get update && sudo apt-get install awscli"""
 }
 
 
