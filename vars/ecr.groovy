@@ -10,7 +10,7 @@
 def ecr_login(){
     aws.login()
     def region = ECR_DOMAIN.split('\\.')[-3]
-    sh "aws ecr get-login --region=${region}"
+    sh "`aws ecr get-login --region=${region}`"
 }
 
 def push_image(name, version='latest', origin_name=null){
