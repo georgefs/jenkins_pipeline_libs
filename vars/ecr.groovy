@@ -8,7 +8,7 @@
 */
 
 def ecr_login(){
-    aws()
+    aws.login()
     def region = ECR_DOMAIN.split('\\.')[-3]
     sh "aws ecr get-login --region=${region}"
 }

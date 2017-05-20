@@ -1,5 +1,5 @@
 def login(){
-    aws()
+    aws.login()
 }
 
 def upload(bucket, from, to=null){
