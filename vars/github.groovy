@@ -25,6 +25,5 @@ def push_tag(tag, create=true){
 
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
         sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} ${tag}"
-        sh("git tag " + RELEASE_VERSION)
     }
 }
