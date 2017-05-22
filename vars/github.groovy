@@ -13,7 +13,7 @@ def current_commit_message(){
 }
 
 def current_repo(repo='origin'){
-    def GIT_REPO = sh(returnStdout: true, script: 'git remote get-url ${repo}|sed \'s/https:\\/\\///\'|sed \'s/git@//\'|sed "s/:/\\//"').trim()
+    def GIT_REPO = sh(returnStdout: true, script: "git remote get-url ${repo}|sed \'s/https:\\/\\///\'|sed \'s/git@//\'|sed \"s/:/\\//\"").trim()
     return GIT_REPO
 }
 
