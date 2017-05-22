@@ -69,5 +69,5 @@ def release_version(){
 }
 
 def image_tag(){
-    return BUILD_TAG.replace("%2F", "_")
+    return BUILD_TAG.replace("%2F", "_").toLowerCase()
 }
