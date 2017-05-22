@@ -4,6 +4,7 @@
 
     設定
         github_token: Credential Secret text
+        github: username & password for github
 
 */
 def current_commit_message(){
@@ -22,7 +23,7 @@ def push_tag(tag, create=true){
     }
     def repo = current_repo().replaceFirst(/^git@/, '').replaceFirst(/https?:\/\//, '').replace(/github.com:/, "github.com/")
 
-    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'github_http', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
         sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} ${tag}"
         sh("git tag " + RELEASE_VERSION)
     }
