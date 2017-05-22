@@ -7,7 +7,8 @@ def call(body){
     Closure test_script = body.test_script
     Closure release = body.release
     use_cert = body.use_cert
-    
+
+    body.image_id = image_tag()
 
     ansiColor('xterm') {
         stage('prepare'){
@@ -19,27 +20,25 @@ def call(body){
                     }
                 }
         }
-        def hash = sh(returnStdout:true, script:'git rev-parse --short HEAD').trim()
-
         stage('build'){
-            sh "docker build . -t ${hash}"
+            sh(returnStdout:true, script:"docker build . -t ${body.image_id}")
         }
 
         stage('test'){
-            withDockerContainer(image:hash, args: '-u root:root') {
+            withDockerContainer(image:body.image_id, args: '-u root:root') {
                 test_script()
             }
         }
 
         stage('release'){
-            sh "docker tag ${hash} ${body.name}"
+            sh "docker tag ${body.image_id} ${body.name}"
             if(is_release()){
                 release()
             }
             try{
-                sh "docker rmi ${hash}"
+                sh "docker rmi ${body.image_id}"
             } catch(e) {
-                echo "remove ${hash} error" 
+                echo "remove ${body.image_id} error" 
             }
 
         }
@@ -67,4 +66,8 @@ def release_version(){
         return false
 
     }
+}
+
+def image_tag(){
+    return BUILD_TAG
 }
