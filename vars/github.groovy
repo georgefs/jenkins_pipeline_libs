@@ -18,7 +18,7 @@ def current_repo(repo='origin'){
 
 def push_tag(tag, create=true){
     if(create){
-        sh 'docker tag ${tag}'
+        sh 'git tag ${tag}'
     }
     def repo = current_repo().replaceFirst(/^git@/, '').replaceFirst(/https?:\/\//, '').replace(/github.com:/, "github.com/")
 
