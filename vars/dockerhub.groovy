@@ -1,5 +1,7 @@
 def push_image(name, version='latest', origin_name=null){
-    origin_name = origin_name || name
+    if(!origin_name){
+        origin_name = name
+    }
     sh 'env'   
     println origin_name
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD']]) {
@@ -13,7 +15,9 @@ def push_image(name, version='latest', origin_name=null){
 }
 
 def pull_image( name, version='latest', target_name=null){ 
-    target_name = target_name || name
+    if(!target_name){
+        target_name = name
+    }
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD']]) {
         def real_name = "${DOCKERHUB_USER}/${name}:${version}"
         sh 'env'

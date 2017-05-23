@@ -15,7 +15,9 @@ def ecr_login(){
 
 def push_image(name, version='latest', origin_name=null){
     ecr_login()
-    origin_name = origin_name || name
+    if(!origin_name){
+        origin_name = name
+    }
     def real_name = "${ECR_DOMAIN}/${name}:${version}"
     sh "docker tag ${origin_name} ${real_name}"
     sh "docker push ${real_name}"
@@ -23,7 +25,9 @@ def push_image(name, version='latest', origin_name=null){
 
 def pull_image(name, version="latest", target_name=null){
     ecr_login()
-    target_name = target_name || name
+    if(!target_name){
+        target_name = name
+    }
     def real_name = "${ECR_DOMAIN}/${name}:${version}"
     sh "docker pull $real_name"
     sh "docker tag ${real_name} ${name}"
