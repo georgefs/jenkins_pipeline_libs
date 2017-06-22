@@ -12,7 +12,6 @@ def call(body){
 
     ansiColor('xterm') {
         stage('prepare'){
-             step([$class: 'WsCleanup'])
             checkout scm
                 withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
                     if(use_cert){
@@ -42,6 +41,10 @@ def call(body){
                 echo "remove ${body.image_id} error" 
             }
 
+        }
+
+        stage('clean'){
+             step([$class: 'WsCleanup'])
         }
     }
 }
