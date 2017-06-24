@@ -27,6 +27,7 @@ def call(body){
         stage('test'){
             withDockerContainer(image:body.image_id, args: '-u root:root') {
                 test_script()
+                sh 'git clean -fd'
             }
         }
 
@@ -41,10 +42,6 @@ def call(body){
                 echo "remove ${body.image_id} error" 
             }
 
-        }
-
-        stage('clean'){
-             step([$class: 'WsCleanup'])
         }
     }
 }
