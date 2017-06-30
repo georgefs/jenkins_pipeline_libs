@@ -13,12 +13,15 @@ def call(body){
     ansiColor('xterm') {
         stage('prepare'){
             checkout scm
-                withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
-                    if(use_cert){
-                        sh 'mv $certfile certfile.tgz'
-                            sh 'tar zxvf certfile.tgz'
-                    }
+            sh 'rm -rf .gitignore'
+            sh 'sudo git checkout -fd'
+            sh 'sudo git checkout .'
+            withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
+                if(use_cert){
+                    sh 'mv $certfile certfile.tgz'
+                        sh 'tar zxvf certfile.tgz'
                 }
+            }
         }
         stage('build'){
             sh(returnStdout:true, script:"docker build . -t ${body.image_id}")
