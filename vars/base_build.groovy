@@ -14,7 +14,7 @@ def call(body){
         stage('prepare'){
             checkout scm
             sh 'rm -rf .gitignore'
-            sh 'sudo git checkout -fd'
+            sh 'sudo git clean -fd'
             sh 'sudo git checkout .'
             withCredentials([file(credentialsId: 'certfile', variable: 'certfile')]) {
                 if(use_cert){
